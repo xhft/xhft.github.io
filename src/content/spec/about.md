@@ -1,18 +1,15 @@
 # Felipe (shft)
 
-Cybersecurity enthusiast with a strong interest in RedTeaming, Pentest and Malware
-
+Entusiasta de offsec com grande interesse em RedTeaming, Pentest e Malware
+Cursando Sistemas de Informação — 6º período.
 ---
-
 ## Certifications
 
-- [2025] · [CRTA]  - Certified Red Team Analyst
-
+- **2025** · **CRTA**  - Certified Red Team Analyst
 ---
-
 ## Education & Training
 
-- [2025] · [TryHackMe] - Red Teaming Certificate
-- [2025] · [TryHackMe] - Web Application Pentesting Certificate
-- [2025] · [TryHackMe] - Jr Penetration Tester Certificate
-- [2025] · [TryHackMe] - Web Fundamentals Certificate
+- **2025** · **TryHackMe** - Red Teaming Certificate
+- **2025** · **TryHackMe** - Web Application Pentesting Certificate
+- **2025** · **TryHackMe** - Jr Penetration Tester Certificate
+- **2025** · **TryHackMe** - Web Fundamentals Certificate
