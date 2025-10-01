@@ -1,7 +1,7 @@
 # Felipe (shft)
 
+Atualmente estou cursando Sistemas de Informação — 6º período.
 Entusiasta de offsec com grande interesse em RedTeaming, Pentest e Malware
-Cursando Sistemas de Informação — 6º período.
 ---
 ## Certifications
 
