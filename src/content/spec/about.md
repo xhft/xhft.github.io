@@ -13,3 +13,8 @@ Entusiasta de offsec com grande interesse em RedTeaming, Pentest e Malware
 - **2025** · **TryHackMe** - Web Application Pentesting Certificate
 - **2025** · **TryHackMe** - Jr Penetration Tester Certificate
 - **2025** · **TryHackMe** - Web Fundamentals Certificate
+---
+## Projects
+
+- **2024** · **jwthings** - Brute Forcer and encoder tokens JWTs
+- **2025** · **ULPfilter** - filter url:login:password
