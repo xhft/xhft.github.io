@@ -46,7 +46,7 @@ Por fim, executamos a função carregada dinamicamente:
 ```
 pMessageBox(NULL, L"heap & shft", L"Eai paper", 0);
 ```
-![pwnzzz](image-1.png)
+![pwnzzz]
 
 # IAT (Import Addres Table)
 O que é Import Addres Table?
@@ -54,15 +54,15 @@ O que é Import Addres Table?
 A **IAT** é uma estrutura presente em executáveis do Windows que armazena os endereços das funções importadas de bibliotecas externas (DLLs).
 
 Antes da aplicação da técnica mencionada, a DLL `user32.dll` usada pelo programa aparece na Import Address Table (IAT).
-![iat](image-2.png)
+![iat]
 
 Após a aplicação da técnica mostrada acima, a DLL `user32.dll` não aparecerá na **Import Address Table (IAT)** do binário, já que a função foi resolvida dinamicamente em tempo de execução.
 
-![iat2](image-3.png)
+![iat2]
 
 No entanto, isso não significa que seu uso esteja totalmente oculto. Mesmo sem a referência na IAT, ainda é possível identificar o carregamento da `user32.dll` ao inspecionar o binário — por exemplo, listando as strings. Isso acontece porque o nome da DLL e da função ("`user32.dll`" e "`MessageBoxW`") continuam armazenados em formato literal dentro do executável.
 
-![alt text](image-4.png)
+![alt text]
 
 (Podemos resolver isso usando XOR nas strings que queremos modificar e decodificá-las em tempo de execução).
 
@@ -70,7 +70,7 @@ No entanto, isso não significa que seu uso esteja totalmente oculto. Mesmo sem 
 **Userland Hooking** é uma técnica de monitoramento onde um **EDR** injeta sua própria DLL em todos os processos executando em modo usuário, alterando o fluxo de execução das APIs críticas do Windows através da inserção de instruções em assembly **"JMP (jump)"** que redirecionam as chamadas para o código do EDR. Quando um processo tenta executar uma função da API **(como VirtualAllocEx ou CreateRemoteThread)**, ao invés de executar diretamente a função original, o controle é transferido para o **EDR** que analisa os parâmetros, avalia se a operação é legítima e então decide se permite a execução retornando o controle para a função original ou bloqueia a ação.
 <div class="flex justify-center">
 
-![jmp state](jmp.png)
+![jmp state]
 
 </div>
 
