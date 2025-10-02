@@ -25,25 +25,25 @@ Como exemplo, será demonstrado o carregamento manual da API **MessageBoxW**, re
 **Exemplo:**
 
 Primeiro, declaramos um ponteiro de função com o nome **PMESSAGEBOX**:
-```
+```c++
  typedef int (WINAPI *PMESSAGEBOX )(HWND hWnd, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
  ```
 
  Em seguida, utilizamos a API **LoadLibraryA** para carregar a DLL `user32.dll` em memória:
 
- ```
+ ```c++
  HMODULE hModule = LoadLibraryA("user32.dll");
  ```
  Definimos então uma variável do tipo do ponteiro:
- ```
+ ```c++
  PMESSAGEBOX pMessageBox;
  ```
  Essa variável irá receber o endereço da função **MessageBoxW**, utilizando as APIs **GetProcAddress** e **GetModuleHandleA**:
-```
+```c++
 pMessageBox = (PMESSAGEBOX)GetProcAddress(GetModuleHandleA("user32.dll"), "MessageBoxW");
 ```
 Por fim, executamos a função carregada dinamicamente:
-```
+```c++
 pMessageBox(NULL, L"heap & shft", L"Eai paper", 0);
 ```
 ![pwnzzz](image-1.png)
@@ -78,7 +78,7 @@ Na imagem, o lado esquerdo mostra o funcionamento normal da função **CreatePro
 
 # Outra perspectiva da Exploração do Manual Mapping
 A primeira etapa envolve o reconhecimento dos mecanismos de proteção implementados. O analista identifica quais bibliotecas dinâmicas foram injetadas pelo **EDR** no processo alvo, normalmente através de ferramentas como **Process Hacker** ou análise programática das estruturas **PEB (Process Environment Block)**. Esta fase inclui o mapeamento das APIs que estão sendo interceptadas através da verificação dos primeiros bytes das funções críticas, comparando-os com suas implementações originais para identificar a presença de instruções **"JMP"** inseridas.
-```
+```c++
 bool IsHooked(HMODULE module, const char* funcName) {
     FARPROC func = GetProcAddress(module, funcName);
     BYTE* bytes = (BYTE*)func;
@@ -93,7 +93,7 @@ bool IsHooked(HMODULE module, const char* funcName) {
 
 Na segunda etapa, temos o foco de carregar versão original da `ntdll.dll` sem modificações do EDR. Podemos fazer isso a partir do disco, onde ela não esta modificada.
 
-```
+```c++
 HANDLE hFile = CreateFile(L"C:\\Windows\\System32\\ntdll.dll", 
                          GENERIC_READ, FILE_SHARE_READ, 
                          NULL, OPEN_EXISTING, 0, NULL);
@@ -103,7 +103,7 @@ LPVOID cleanDll = MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
 ```
 
 Na terceira etapa, o mapeamento manual de DLL implementa, em espaço de usuário, uma versão customizada do **PE loader do Windows**. Em vez de usar o carregador do sistema (por exemplo LoadLibrary), a técnica lê o ficheiro PE (DLL) do disco, interpreta os seus cabeçalhos (DOS e NT) e recria manualmente a imagem na memória do processo alvo. 
-```
+```c++
 void* ManualMap(HANDLE process, BYTE* dllData) {
     IMAGE_DOS_HEADER* dosHeader = (IMAGE_DOS_HEADER*)dllData;
     IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)
@@ -129,7 +129,7 @@ void* ManualMap(HANDLE process, BYTE* dllData) {
 ```
 Na quarta etapa, consiste em identificar a tabela de importações presente na imagem PE reconstituída em memória e ligar cada entrada de importação ao endereço efetivo da função exportada correspondente nos módulos dependentes, de modo que as chamadas externas da biblioteca apontem para rotinas válidas no contexto do processo alvo.
 
-```
+```c++
 void ResolveImports(void* baseAddr, BYTE* dllData) {
     IMAGE_NT_HEADERS* ntHeader = GetNTHeaders(dllData);
     IMAGE_IMPORT_DESCRIPTOR* importDesc = 
@@ -158,7 +158,7 @@ void ResolveImports(void* baseAddr, BYTE* dllData) {
 ```
 Nesta etapa ajustam‑se todos os endereços internos da biblioteca quando ela não pode ser carregada exatamente no endereço que esperava. É como atualizar mapas e referências para que tudo continue a apontar para o lugar certo após a realocação. Então vamos ajustar os endereços internos da imagem PE de acordo com o deslocamento entre a base preferida definida no binário e a base efetivamente alocada em memória.
 
-```
+```c++
 void ProcessRelocations(void* baseAddr, BYTE* dllData) {
     IMAGE_NT_HEADERS* ntHeader = GetNTHeaders(dllData);
     DWORD_PTR delta = (DWORD_PTR)baseAddr - 
@@ -188,7 +188,7 @@ void ProcessRelocations(void* baseAddr, BYTE* dllData) {
 ```
 Nesta etapa final, o código da biblioteca mapeada é efetivamente utilizado: as funções exportadas são identificadas e chamadas para que a biblioteca execute as suas funcionalidades dentro do processo onde foi colocada.
 
-```
+```c++
 typedef LPVOID (WINAPI* VirtualAllocExFunc)(HANDLE, LPVOID, SIZE_T, DWORD, DWORD);
 
 VirtualAllocExFunc cleanVirtualAllocEx = 
