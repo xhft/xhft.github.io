@@ -3,7 +3,7 @@ title: "Manual Mapping"
 published: 2025-09-30
 description: "Iremos abordar sobre o que é Manual Mapping, Userland Hooking entre outros conceitos"
 tags: [Windows, Technique]
-category: "Red Team, Malware"
+category: "Red Team"
 draft: false
 ---
 
