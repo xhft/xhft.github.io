@@ -13,6 +13,8 @@ Entusiasta de offsec com grande interesse em RedTeaming, Pentest e Malware
 - **2025** · **TryHackMe** - Web Application Pentesting Certificate
 - **2025** · **TryHackMe** - Jr Penetration Tester Certificate
 - **2025** · **TryHackMe** - Web Fundamentals Certificate
+- **2025** · **Red Team Leaders** - AV/EDR Evasion Practical Techniques
+- **2024** · **IFES** - REPROGRAME-SE - Programação com JavaScript e o framework Node.js
 ---
 ## Projects
 
