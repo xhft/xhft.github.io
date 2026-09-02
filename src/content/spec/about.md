@@ -5,7 +5,7 @@ Entusiasta de offsec com grande interesse em RedTeaming, Pentest e Malware
 ---
 ## Certifications
 
-- **2025** · **Web-RTA**  - Certified Web Red Team Analyst
+- **2026** · **Web-RTA**  - Certified Web Red Team Analyst
 - **2025** · **CRTA**  - Certified Red Team Analyst
 ---
 ## Education & Training
